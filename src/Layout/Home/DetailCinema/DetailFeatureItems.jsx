@@ -42,7 +42,7 @@ const DetailFeatureItems = ({ detail }) => {
                   <div className="grid grid-cols-3">
                     {chieu?.lichChieuPhim?.map((chieuPhim, index) => {
                       return (
-                        <div className="bg-red-300 rounded-lg px-0 py-2 mr-3 text-center cursor-pointer">
+                        <div className="bg-red-300 rounded-lg px-0 py-2 mr-3 mb-3 text-center cursor-pointer">
                           {moment(chieuPhim.ngayChieuGioChieu).format("h:mm A")}
                         </div>
                       );

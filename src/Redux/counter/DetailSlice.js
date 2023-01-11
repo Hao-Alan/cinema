@@ -13,7 +13,7 @@ export const fetchDetailData = createAsyncThunk(
     'movie/fetchDetailData', async (id) => {
         try {
             const response = await LayThongTinLichChieuPhim(id)
-            console.log("response", response);
+            // console.log("response", response);
             return response.data.content
         } catch (error) {
             console.log('error', error);
