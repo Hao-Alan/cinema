@@ -26,10 +26,10 @@ html {
   }
 }
 
-body {
+/* body {
   height: 20vh;
   background-color: #ece0e8;
-}
+} */
 
 .artboard {
   display: flex;

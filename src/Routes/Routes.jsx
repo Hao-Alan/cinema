@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import About from "../Layout/About/About";
+import BookingDetail from "../Layout/BookingDetail/BookingDetail";
 import Contact from "../Layout/Contact/Contact";
 import DetailCinema from "../Layout/Home/DetailCinema/DetailCinema";
 import DetailTotal from "../Layout/Home/DetailCinema/DetailTotal";
@@ -68,6 +69,24 @@ const Routes = createBrowserRouter([
     element: (
       <HomeTemplate>
         <DetailTotal />
+      </HomeTemplate>
+    ),
+  },
+  {
+    path: "/booking/:id",
+    id: "booking",
+    element: (
+      <HomeTemplate>
+        <BookingDetail />
+      </HomeTemplate>
+    ),
+  },
+  {
+    path: "/booking",
+    id: "bookingHello",
+    element: (
+      <HomeTemplate>
+        <BookingDetail />
       </HomeTemplate>
     ),
   },
