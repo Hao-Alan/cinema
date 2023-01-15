@@ -1,8 +1,13 @@
 import React from "react";
 import { Tabs } from "antd";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DetailFeatureItems = ({ detail }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   console.log("newDetail", detail.heThongRapChieu);
 
   const ListFilm = () => {
@@ -42,7 +47,12 @@ const DetailFeatureItems = ({ detail }) => {
                   <div className="grid grid-cols-3">
                     {chieu?.lichChieuPhim?.map((chieuPhim, index) => {
                       return (
-                        <div className="bg-red-300 rounded-lg px-0 py-2 mr-3 mb-3 text-center cursor-pointer">
+                        <div
+                          className="bg-red-300 rounded-lg px-0 py-2 mr-3 mb-3 text-center cursor-pointer"
+                          onClick={() => {
+                            navigate(`/checkout/${id}`);
+                          }}
+                        >
                           {moment(chieuPhim.ngayChieuGioChieu).format("h:mm A")}
                         </div>
                       );

@@ -11,10 +11,22 @@ import HomeFeature from "../Layout/Home/HomeFeature/HomeFeature";
 import Login from "../Layout/Login/Login";
 import News from "../Layout/News/News";
 import Register from "../Layout/Register/Register";
+import CheckOutTemplate from "../Templates/CheckOutTemplate/CheckOutTemplate";
 import ErrorPage from "../Templates/ErrorTemplates/ErrorPage";
 import HomeTemplate from "../Templates/HomeTemplates/HomeTemplate";
 
 const Routes = createBrowserRouter([
+  /*  public routes */
+  {
+    path: "/login",
+    id: "login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    id: "register",
+    element: <Register />,
+  },
   {
     path: "/",
     element: (
@@ -53,16 +65,7 @@ const Routes = createBrowserRouter([
       </HomeTemplate>
     ),
   },
-  {
-    path: "/login",
-    id: "login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    id: "register",
-    element: <Register />,
-  },
+
   {
     path: "/detail/:id",
     id: "detail",
@@ -73,23 +76,16 @@ const Routes = createBrowserRouter([
     ),
   },
   {
-    path: "/booking/:id",
-    id: "booking",
+    path: "/checkout/:id",
+    id: "checkout",
     element: (
-      <HomeTemplate>
-        <BookingDetail />
-      </HomeTemplate>
+      // <HomeTemplate>
+      <CheckOutTemplate />
+      // </HomeTemplate>
     ),
   },
-  {
-    path: "/booking",
-    id: "bookingHello",
-    element: (
-      <HomeTemplate>
-        <BookingDetail />
-      </HomeTemplate>
-    ),
-  },
+
+  /* we want to protect these routes */
 ]);
 
 export default Routes;

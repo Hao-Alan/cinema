@@ -1,9 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLogin } from "../../Redux/counter/LoginSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { userLogin } = useSelector((state) => state.fetchLogin);
+  console.log("userXXX", userLogin);
 
   return (
     <>
@@ -32,28 +38,21 @@ const Login = () => {
                 </h2>
               </div>
 
+              {/* {
+      "taiKhoan": "0901959488",
+      "hoTen": "Huynh Quang Minh",
+      "email": "quangminh@gmail.com",
+      "soDt": "0316546547344",
+      "matKhau": "12312345",
+      "maLoaiNguoiDung": "QuanTri"
+    }, */}
               <Formik
-                initialValues={{ email: "", password: "" }}
-                validate={(values) => {
-                  console.log("helloo", values);
-
-                  const errors = {};
-                  if (!values.email) {
-                    errors.email = "Required";
-                  } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                      values.email
-                    )
-                  ) {
-                    errors.email = "Invalid email address";
-                  }
-                  return errors;
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                  }, 400);
+                initialValues={{ taiKhoan: "", matKhau: "" }}
+                onSubmit={(values) => {
+                  const object = { values, navigate };
+                  console.log("values", values);
+                  // dispatch(fetchLogin(values, navigate));
+                  dispatch(fetchLogin(object));
                 }}
               >
                 {({
@@ -69,8 +68,8 @@ const Login = () => {
                   <form onSubmit={handleSubmit}>
                     <div class="mt-8">
                       <div class="mt-6">
-                        <form action="#" method="POST" class="space-y-6">
-                          <div>
+                        <div class="space-y-6">
+                          <div className="mb-3">
                             <label
                               for="email"
                               class="block text-sm font-medium text-neutral-600"
@@ -81,17 +80,16 @@ const Login = () => {
                             <div class="mt-1">
                               <input
                                 id="email"
-                                name="email"
-                                type="email"
+                                name="taiKhoan"
+                                // type="email"
                                 autocomplete="email"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.email}
-                                required=""
                                 placeholder="Your Email"
                                 class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                               />
-                              {errors.email && touched.email && errors.email}
+                              {/*   {errors.email && touched.email && errors.email} */}
                             </div>
                           </div>
 
@@ -106,19 +104,18 @@ const Login = () => {
                             <div class="mt-1">
                               <input
                                 id="password"
-                                name="password"
+                                name="matKhau"
                                 type="password"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.password}
                                 autocomplete="current-password"
-                                required=""
                                 placeholder="Your Password"
                                 class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                               />
-                              {errors.password &&
+                              {/*  {errors.password &&
                                 touched.password &&
-                                errors.password}
+                                errors.password} */}
                             </div>
                           </div>
 
@@ -154,13 +151,13 @@ const Login = () => {
                           <div>
                             <button
                               type="submit"
-                              disabled={isSubmitting}
+                              // disabled={isSubmitting}
                               class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             >
                               Sign in
                             </button>
                           </div>
-                        </form>
+                        </div>
                         <div class="relative my-4">
                           <div class="absolute inset-0 flex items-center">
                             <div class="w-full border-t border-gray-300"></div>

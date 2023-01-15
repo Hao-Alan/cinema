@@ -10,12 +10,12 @@ const DetailTotal = () => {
   const { detail } = useSelector((state) => state.DetailSlice);
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log({ detail });
+  // console.log({ detail });
 
   useEffect(() => {
     dispatch(fetchDetailData(id));
   }, []);
-  console.log({ detail });
+  // console.log({ detail });
   return (
     <div>
       <DetailCinema detail={detail} />
