@@ -3,7 +3,13 @@ import React from 'react'
 import { QuanLyDatVeServices } from '../../services/QuanLyDatVeServices'
 
 const initialState = {
-    filmInfo: {}
+    filmInfo: {
+        danhSachGhe: [],
+        thongTinPhim: {}
+    },
+    ListGheDangDat: []
+
+
 }
 
 export const FetchQuanLyDatVe = createAsyncThunk(
@@ -16,8 +22,6 @@ export const FetchQuanLyDatVe = createAsyncThunk(
             if (response.status === 200) {
                 // console.log('response', response.data);
                 return response?.data?.content
-
-
             }
         } catch (error) {
             console.log('error', error);
@@ -30,7 +34,20 @@ export const QuanLyDatVeServicesSliceReducer = createSlice(
     {
         name: 'QuanLyDatVeServices',
         initialState,
-        reducers: {},
+        reducers: {
+            getGheDangDat: (state, action) => {
+                let newListGheDangDat = [...state.ListGheDangDat]
+
+                let index = newListGheDangDat.findIndex(item => item.maGhe === action.payload.maGhe)
+                if (index != -1) {
+                    newListGheDangDat.splice(index, 1)
+                } else {
+                    newListGheDangDat.push(action.payload)
+                }
+                state.ListGheDangDat = [...newListGheDangDat]
+
+            }
+        },
         extraReducers: (builder) => {
             builder.addCase(FetchQuanLyDatVe.fulfilled, (state, action) => {
                 state.filmInfo = action.payload
@@ -40,5 +57,7 @@ export const QuanLyDatVeServicesSliceReducer = createSlice(
     }
 
 )
+
+export const { getGheDangDat } = QuanLyDatVeServicesSliceReducer.actions
 
 export default QuanLyDatVeServicesSliceReducer.reducer
