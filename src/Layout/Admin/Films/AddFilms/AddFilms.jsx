@@ -45,6 +45,17 @@ const AddFilms = (props) => {
     formik.setFieldValue("ngayKhoiChieu", dateUpdate);
   };
 
+  const handleChangeSwitch = (name) => {
+    return (value) => {
+      formik.setFieldValue(name, value);
+    };
+  };
+
+  const handleChangeInputNumber = (name) => {
+    return (value) => {
+      formik.setFieldValue(name, value);
+    };
+  };
   return (
     <>
       <Form
@@ -89,17 +100,26 @@ const AddFilms = (props) => {
           />
         </Form.Item>
         <Form.Item label="Đang chiếu" valuePropName="checked">
-          <Switch name="dangChieu" />
+          <Switch onChange={handleChangeSwitch("dangChieu")} />
         </Form.Item>
         <Form.Item label="Sắp chiếu" valuePropName="checked">
-          <Switch name="sapChieu" />
+          <Switch
+            onChange={(value) => {
+              formik.setFieldValue("sapChieu", value);
+            }}
+          />
         </Form.Item>
         <Form.Item label="Hot" valuePropName="checked">
-          <Switch name="hot" />
+          <Switch name="hot" onChange={handleChangeSwitch("hot")} />
         </Form.Item>
 
         <Form.Item label="Sao đánh giá">
-          <InputNumber name="danhGia" />
+          <InputNumber
+            name="danhGia"
+            onChange={handleChangeInputNumber("danhGia")}
+            min={0}
+            max={10}
+          />
         </Form.Item>
         <Form.Item label="Hình ảnh" valuePropName="checked">
           <input type="file" name="hinhAnh" />
