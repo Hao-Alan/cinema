@@ -19,7 +19,7 @@ export const store = configureStore({
     MenuHomeSlice,
     DetailSlice,
     fetchLogin,
-    QuanLyDatVeServicesSliceReducer
+    QuanLyDatVeServicesSliceReducer,
 
   }
 });

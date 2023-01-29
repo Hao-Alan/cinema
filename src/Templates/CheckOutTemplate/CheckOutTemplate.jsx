@@ -7,6 +7,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
+import LoadingPage from "../../Components/LoadingPage";
 import { USER_LOGIN } from "../../Utils/settings/config";
 import CheckOutPage from "./CheckoutPage/CheckOutPage";
 
@@ -17,6 +18,7 @@ const CheckOutTemplate = () => {
 
   return (
     <div>
+      <LoadingPage />
       <CheckOutPage />
     </div>
   );

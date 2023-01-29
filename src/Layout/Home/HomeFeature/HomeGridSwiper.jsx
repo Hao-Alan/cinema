@@ -67,7 +67,7 @@ const HomeGridSwiper = ({ features }) => {
         </button>
 
         <button
-          class="button-82-pushable "
+          className="button-82-pushable "
           role="button"
           onClick={() => {
             dispatch(tatCaPhim());

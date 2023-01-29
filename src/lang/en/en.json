@@ -1,0 +1,13 @@
+{
+    "login":"login",
+    "register":"register",
+    "password":"password",
+    "confirm_password":"confirm_password",
+    "username":"用户username名",
+    "nickname":"nickname",
+    "email":"email",
+    "mobile":"mobile",
+    "gender":"gender"
+
+
+}

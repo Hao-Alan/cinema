@@ -8,6 +8,7 @@ import './index.css';
 import "flowbite";
 import 'antd/dist/reset.css';
 import "swiper/css/bundle";
+import "./i18n"
 
 
 const container = document.getElementById('root');

@@ -3,15 +3,15 @@ import { LayDanhSachPhim } from '../../services/QuanLyPhimServices'
 
 const initialState = {
     movieFeature: [{
-        "maPhim": 10856,
-        "tenPhim": "Spy x Family",
-        "biDanh": "spy-x-family",
-        "trailer": "https://youtu.be/rzRUlBcmsDo?t=1",
-        "hinhAnh": "http://movieapi.cyberlearn.vn/hinhanh/spy-x-family_gp01.jpg",
-        "moTa": "Spy x Family Des",
-        "maNhom": "GP01",
-        "ngayKhoiChieu": "2022-11-02T11:03:57.317",
-        "danhGia": 10,
+        "maPhim": "",
+        "tenPhim": "",
+        "biDanh": "",
+        "trailer": "",
+        "hinhAnh": "",
+        "moTa": "",
+        "maNhom": "",
+        "ngayKhoiChieu": "",
+        "danhGia": "",
         "hot": true,
         "dangChieu": true,
         "sapChieu": false

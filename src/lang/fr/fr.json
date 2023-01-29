@@ -1,0 +1,12 @@
+{
+    "login":"Connexion",
+    "register":"Inscription",
+    "logout":"déconnexion",
+    "home":"Accueil",
+    "profile":"Profil",
+    "password":"Mot de passe",
+    "email":"Courriel",
+    "name":"Nom"
+
+
+}

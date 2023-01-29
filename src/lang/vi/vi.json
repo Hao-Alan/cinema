@@ -1,0 +1,14 @@
+{
+    "login":"đăng nhập",
+    "logout":"đăng xuất",
+    "register":"đăng ký",
+    "password":"mật khẩu",
+    "confirm_password":"xác nhận mật khẩu",
+    "username":"tài khoản",
+    "nickname":"bí danh",
+    "email":"email",
+    "mobile":"số điện thoại",
+    "gender":"giới tính"
+
+
+}

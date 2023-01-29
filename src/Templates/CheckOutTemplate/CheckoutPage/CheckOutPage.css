@@ -4,7 +4,7 @@
     height:16px;
     border-radius: 2px;
     margin: 5px;
-    cursor: pointer;;
+    cursor: pointer;
 }
 .gheVip{
     background-color: orangered;
@@ -12,10 +12,17 @@
 
 .gheDangDat{
     background-color: greenyellow;
+    /* cursor: no-drop; */
+
 }
 
 .gheDaDat{
     background-color: orange;
+    cursor: no-drop;
+
+}
+.gheKhachHangKhachDD{
+    background-color: purple;
     cursor: no-drop;
 
 }
