@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import { QuanLyDatVeServiceMoi, QuanLyDatVeServices } from '../../services/QuanLyDatVeServices'
+import { QuanLyDatVeServiceMoi, QuanLyDatVeServices, ThemPhimUploadHinh } from '../../services/QuanLyDatVeServices'
 import { QuanLyNguoiDungDangNhapService } from '../../services/QuanLyNguoiDungServices'
+import { LayThongTinPhim } from '../../services/QuanLyPhimServices'
 
 const initialState = {
     filmInfo: {
@@ -22,7 +23,8 @@ const initialState = {
                 "giaVe": 0
             }
         ]
-    }
+    },
+    ThongTinPhim: {},
 
 
 }
@@ -76,6 +78,38 @@ export const QuanLyNguoiDungDangNhapServiceReducer = createAsyncThunk(
 
 )
 
+export const QuanLyThemPhimUploadHinh = createAsyncThunk(
+    'QuanLyDatVeServices/QuanLyThemPhimUploadHinh',
+    async (hinhAnh) => {
+        try {
+            let response = await ThemPhimUploadHinh(hinhAnh)
+            if (response.status === 200) {
+                alert("thêm thành công!")
+                console.log("responseNew", response?.data?.content);
+                return response?.data?.content
+
+            }
+        } catch (error) {
+            console.log("error", error?.response?.data);
+        }
+    }
+)
+
+export const QuanLyLayThongTinPhim = createAsyncThunk(
+    'QuanLyDatVeServices/QuanLyLayThongTinPhim',
+    async (maPhim) => {
+        try {
+            let response = await LayThongTinPhim(maPhim)
+            if (response.status === 200) {
+                console.log("responseNew", response.data.content);
+                return response?.data?.content
+
+            }
+        } catch (error) {
+            console.log("error", error.response.data);
+        }
+    }
+)
 
 export const QuanLyDatVeServicesSliceReducer = createSlice(
     {
@@ -127,6 +161,15 @@ export const QuanLyDatVeServicesSliceReducer = createSlice(
             builder.addCase(QuanLyNguoiDungDangNhapServiceReducer.pending, (state, action) => {
                 state.loading = true
             })
+            builder.addCase(QuanLyLayThongTinPhim.fulfilled, (state, action) => {
+                state.ThongTinPhim = action.payload
+                state.loading = false
+            })
+            builder.addCase(QuanLyLayThongTinPhim.pending, (state, action) => {
+                state.loading = true
+            })
+
+
 
         }
 

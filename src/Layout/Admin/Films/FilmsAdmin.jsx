@@ -9,6 +9,7 @@ import {
 } from "../../../Redux/counter/FeatureSlice";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { QuanLyLayThongTinPhim } from "../../../Redux/counter/QuanLyDatVeServicesReducer";
 
 const { Search } = Input;
 const FilmsAdmin = () => {
@@ -82,10 +83,10 @@ const FilmsAdmin = () => {
       render: (text, filmList, index) => {
         return (
           <div>
-            <Link to={"/"}>
+            <Link key={1} to={`/admin/films/addFilms/edit/${filmList.maPhim}`}>
               <EditOutlined className="text-4xl text-blue-500 mr-5" />
             </Link>
-            <Link to={"/"}>
+            <Link to={"/"} key={2}>
               <DeleteOutlined className="text-4xl text-red-500" />
             </Link>
           </div>

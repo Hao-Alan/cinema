@@ -28,3 +28,7 @@ export const LayThongTinLichChieuPhim = (props) => {
         get(`/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${props}`)
     )
 }
+
+export const LayThongTinPhim = (phim) => {
+    return get(`api/QuanLyPhim/LayThongTinPhim?MaPhim=${phim}`)
+}

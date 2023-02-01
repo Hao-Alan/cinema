@@ -1,41 +1,51 @@
 import React from "react";
 
-import {
-  Button,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Switch,
-  TreeSelect,
-} from "antd";
+import { DatePicker, Form, Input, InputNumber, Radio, Switch } from "antd";
 import { useState } from "react";
 import { useFormik } from "formik";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-import { QuanLyThemPhimUploadHinh } from "../../../../Redux/counter/QuanLyDatVeServicesReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  QuanLyLayThongTinPhim,
+  QuanLyThemPhimUploadHinh,
+} from "../../../../../Redux/counter/QuanLyDatVeServicesReducer";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
-const AddFilms = (props) => {
+const Edit = (props) => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(QuanLyLayThongTinPhim(id));
+  }, []);
+
+  const { ThongTinPhim } = useSelector(
+    (state) => state.QuanLyDatVeServicesSliceReducer
+  );
+  console.log("thongTinPhim", ThongTinPhim);
+  console.log("thongTinPhimDate", ThongTinPhim.ngayKhoiChieu);
+  let fatedate = moment(ThongTinPhim.ngayKhoiChieu).format("DD/MM/YYYY");
+  console.log("fate,da", fatedate);
+  //   console.log("hinhAnh", ThongTinPhim.hinhAnh);
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
   };
-  const dispatch = useDispatch();
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      tenPhim: "",
-      trailer: "",
-      moTa: "",
+      tenPhim: ThongTinPhim?.tenPhim,
+      trailer: ThongTinPhim?.trailer,
+      moTa: ThongTinPhim?.moTa,
       ngayKhoiChieu: "",
-      dangChieu: false,
-      sapChieu: false,
-      hot: false,
-      danhGia: 0,
-      hinhAnh: {},
+      dangChieu: ThongTinPhim?.dangChieu,
+      sapChieu: ThongTinPhim?.sapChieu,
+      hot: ThongTinPhim?.hot,
+      danhGia: ThongTinPhim?.danhGia,
+      hinhAnh: null,
     },
 
     onSubmit: (values) => {
@@ -79,6 +89,9 @@ const AddFilms = (props) => {
 
   const [selectedImage, setSelectedImage] = useState(null);
 
+  //   let momentLichChieu = moment(ThongTinPhim.ngayKhoiChieu).format(
+  //     "DD/MM/YYYY A"
+  //   );
   return (
     <>
       <Form
@@ -107,33 +120,56 @@ const AddFilms = (props) => {
           </Radio.Group>
         </Form.Item>
         <Form.Item label="Tên phim">
-          <Input onChange={formik.handleChange} name="tenPhim" />
+          <Input
+            onChange={formik.handleChange}
+            name="tenPhim"
+            value={formik.values.tenPhim}
+          />
         </Form.Item>
         <Form.Item label="Trailer">
-          <Input onChange={formik.handleChange} name="trailer" />
+          <Input
+            onChange={formik.handleChange}
+            name="trailer"
+            value={formik.values.trailer}
+          />
         </Form.Item>
         <Form.Item label="Mô tả">
-          <Input onChange={formik.handleChange} name="moTa" />
+          <Input
+            onChange={formik.handleChange}
+            name="moTa"
+            value={formik.values.moTa}
+          />
         </Form.Item>
         <Form.Item label="Ngày khởi chiếu">
           <DatePicker
-            name="ngayKhoiChieu"
-            format={"DD/MM/YYYY"}
+            // name="ngayKhoiChieu"
             onChange={handleChangeDatePicker}
+            // defaultValue={dayjs(ThongTinPhim.ngayKhoiChieu, "DD/MM/YYYY")}
+            // defaultValue={dayjs(fatedate, "DD/MM/YYYY")}
+            value={dayjs(`${fatedate}`, "DD/MM/YYYY")}
+            format="DD/MM/YYYY"
           />
         </Form.Item>
         <Form.Item label="Đang chiếu" valuePropName="checked">
-          <Switch onChange={handleChangeSwitch("dangChieu")} />
+          <Switch
+            onChange={handleChangeSwitch("dangChieu")}
+            defaultChecked={formik.values.dangChieu}
+          />
         </Form.Item>
         <Form.Item label="Sắp chiếu" valuePropName="checked">
           <Switch
             onChange={(value) => {
               formik.setFieldValue("sapChieu", value);
             }}
+            defaultChecked={formik.values.sapChieu}
           />
         </Form.Item>
         <Form.Item label="Hot" valuePropName="checked">
-          <Switch name="hot" onChange={handleChangeSwitch("hot")} />
+          <Switch
+            name="hot"
+            onChange={handleChangeSwitch("hot")}
+            defaultChecked={formik.values.hot}
+          />
         </Form.Item>
 
         <Form.Item label="Sao đánh giá">
@@ -142,26 +178,24 @@ const AddFilms = (props) => {
             onChange={handleChangeInputNumber("danhGia")}
             min={0}
             max={10}
+            value={formik.values.danhGia}
           />
         </Form.Item>
         <Form.Item label="Hình ảnh" valuePropName="checked">
           <div>
-            {selectedImage && (
-              <div>
-                <img
-                  alt="not fount"
-                  width={"250px"}
-                  src={URL.createObjectURL(selectedImage)}
-                />
-                <br />
-                <button
-                  onClick={() => setSelectedImage(null)}
-                  className="bg-red-300 px-3 rounded-2xl"
-                >
-                  Remove
-                </button>
-              </div>
-            )}
+            <div>
+              <img
+                src={
+                  selectedImage === null
+                    ? ThongTinPhim.hinhAnh
+                    : URL.createObjectURL(selectedImage)
+                }
+                width="250px"
+                alt="hinh anh"
+              />
+
+              <br />
+            </div>
             <br />
             <input
               type="file"
@@ -184,4 +218,4 @@ const AddFilms = (props) => {
   );
 };
 
-export default AddFilms;
+export default Edit;

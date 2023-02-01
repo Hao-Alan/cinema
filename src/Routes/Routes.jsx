@@ -22,6 +22,7 @@ import CheckOutTemplate from "../Templates/CheckOutTemplate/CheckOutTemplate";
 import ErrorPage from "../Templates/ErrorTemplates/ErrorPage";
 import HomeTemplate from "../Templates/HomeTemplates/HomeTemplate";
 import Users from "../Layout/Admin/Users/Users";
+import Edit from "../Layout/Admin/Films/AddFilms/Edit/Edit";
 
 const Routes = createBrowserRouter([
   /*  public routes */
@@ -107,6 +108,11 @@ const Routes = createBrowserRouter([
         path: "/admin/films/addFilms",
         id: "addFilms",
         element: <AddFilms />,
+      },
+      {
+        path: "/admin/films/addFilms/edit/:id",
+        id: "edit",
+        element: <Edit />,
       },
       {
         path: "/admin/users",
