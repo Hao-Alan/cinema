@@ -17,6 +17,7 @@ import { useFormik } from "formik";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { QuanLyThemPhimUploadHinh } from "../../../../Redux/counter/QuanLyDatVeServicesReducer";
+import dayjs from "dayjs";
 
 const AddFilms = (props) => {
   const [componentSize, setComponentSize] = useState("default");
@@ -55,11 +56,14 @@ const AddFilms = (props) => {
   });
 
   const handleChangeDatePicker = (value) => {
-    // console.log("datePickerChange", moment(value).format("DD/MM/YYYY"));
+    /*    // console.log("datePickerChange", moment(value).format("DD/MM/YYYY"));
     let dateUpdate = moment(value).format("DD/MM/YYYY");
-    formik.setFieldValue("ngayKhoiChieu", dateUpdate);
+    // console.log("namnhan", dateUpdate);
+    formik.setFieldValue("ngayKhoiChieu", dateUpdate); */
+    let ngayKhoiChieu = moment(value).format("DD/MM/YYYY");
+    formik.setFieldValue("ngayKhoiChieu", ngayKhoiChieu);
   };
-
+  console.log("xxx", formik.values.ngayKhoiChieu);
   const handleChangeSwitch = (name) => {
     return (value) => {
       formik.setFieldValue(name, value);
@@ -117,9 +121,12 @@ const AddFilms = (props) => {
         </Form.Item>
         <Form.Item label="Ngày khởi chiếu">
           <DatePicker
-            name="ngayKhoiChieu"
-            format={"DD/MM/YYYY"}
+            // name="ngayKhoiChieu"
+            // format={"DD/MM/YYYY"}
+            format="DD/MM/YYYY"
             onChange={handleChangeDatePicker}
+            value={formik?.values?.ngayKhoiChieu}
+            // value={dayjs(formik.values.ngayKhoiChieu)}
           />
         </Form.Item>
         <Form.Item label="Đang chiếu" valuePropName="checked">

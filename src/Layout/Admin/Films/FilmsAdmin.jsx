@@ -1,6 +1,11 @@
 import React from "react";
 import { Button, Table } from "antd";
-import { AudioOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  AudioOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  CalendarOutlined,
+} from "@ant-design/icons";
 import { Input, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,8 +13,12 @@ import {
   tatCaPhim,
 } from "../../../Redux/counter/FeatureSlice";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { QuanLyLayThongTinPhim } from "../../../Redux/counter/QuanLyDatVeServicesReducer";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  QuanLyLayThongTinPhim,
+  XoaPhim,
+  XoaPhimPhim,
+} from "../../../Redux/counter/QuanLyDatVeServicesReducer";
 
 const { Search } = Input;
 const FilmsAdmin = () => {
@@ -17,8 +26,9 @@ const FilmsAdmin = () => {
   useEffect(() => {
     dispatch(fetchMovieFeature());
   }, []);
+  const navigate = useNavigate();
   const { movieFeatureCopy } = useSelector((state) => state.FeatureSlice);
-  console.log("FeatureSlice", movieFeatureCopy);
+  // console.log("FeatureSlice", movieFeatureCopy);
 
   const columns = [
     {
@@ -86,13 +96,31 @@ const FilmsAdmin = () => {
             <Link key={1} to={`/admin/films/addFilms/edit/${filmList.maPhim}`}>
               <EditOutlined className="text-4xl text-blue-500 mr-5" />
             </Link>
-            <Link to={"/"} key={2}>
+            <span
+              onClick={() => {
+                // .then(navigate("/"));
+                if (
+                  window.confirm("bạn có chắc muốn xóa phim" + filmList.tenPhim)
+                ) {
+                  dispatch(XoaPhimPhim(filmList.maPhim));
+                }
+              }}
+              key={2}
+              style={{ cursor: "pointer" }}
+            >
               <DeleteOutlined className="text-4xl text-red-500" />
+            </span>
+            <Link //span Calenda
+              to={`/admin/films/showTimes/${filmList.maPhim}/${filmList.tenPhim}}`}
+              key={2}
+              style={{ cursor: "pointer", marginLeft: "10px" }}
+            >
+              <CalendarOutlined className="text-4xl text-green-500" />
             </Link>
           </div>
         );
       },
-      width: "15%",
+      width: "20%",
     },
   ];
   const data = movieFeatureCopy;
@@ -100,7 +128,10 @@ const FilmsAdmin = () => {
     console.log("params", pagination, filters, sorter, extra);
   };
 
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    console.log(value);
+    dispatch(fetchMovieFeature(value));
+  };
 
   return (
     <div>
@@ -116,7 +147,12 @@ const FilmsAdmin = () => {
         className="mb-12"
       />
 
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        onChange={onChange}
+        rowKey={"maPhim"}
+      />
     </div>
   );
 };

@@ -6,17 +6,19 @@ import { useFormik } from "formik";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  QuanLyCapNhatPhimUpload,
   QuanLyLayThongTinPhim,
   QuanLyThemPhimUploadHinh,
 } from "../../../../../Redux/counter/QuanLyDatVeServicesReducer";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
+import { fetchMovieFeature } from "../../../../../Redux/counter/FeatureSlice";
 
 const Edit = (props) => {
   const dispatch = useDispatch();
   const { id } = useParams();
-
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(QuanLyLayThongTinPhim(id));
   }, []);
@@ -24,10 +26,10 @@ const Edit = (props) => {
   const { ThongTinPhim } = useSelector(
     (state) => state.QuanLyDatVeServicesSliceReducer
   );
-  console.log("thongTinPhim", ThongTinPhim);
-  console.log("thongTinPhimDate", ThongTinPhim.ngayKhoiChieu);
-  let fatedate = moment(ThongTinPhim.ngayKhoiChieu).format("DD/MM/YYYY");
-  console.log("fate,da", fatedate);
+  // console.log("thongTinPhim", ThongTinPhim);
+  // console.log("thongTinPhimDate", ThongTinPhim.ngayKhoiChieu);
+  // let fatedate = moment(ThongTinPhim.ngayKhoiChieu);
+  // console.log("fate,da", fatedate);
   //   console.log("hinhAnh", ThongTinPhim.hinhAnh);
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
@@ -37,10 +39,11 @@ const Edit = (props) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      maPhim: ThongTinPhim?.maPhim,
       tenPhim: ThongTinPhim?.tenPhim,
       trailer: ThongTinPhim?.trailer,
       moTa: ThongTinPhim?.moTa,
-      ngayKhoiChieu: "",
+      ngayKhoiChieu: ThongTinPhim?.ngayKhoiChieu,
       dangChieu: ThongTinPhim?.dangChieu,
       sapChieu: ThongTinPhim?.sapChieu,
       hot: ThongTinPhim?.hot,
@@ -56,23 +59,28 @@ const Edit = (props) => {
         if (key !== "hinhAnh") {
           formData.append(key, values[key]);
         } else {
-          formData.append("File", values.hinhAnh, values.hinhAnh.name);
+          if (values.hinhAnh !== null) {
+            formData.append("File", values.hinhAnh, values.hinhAnh.name);
+          }
         }
       }
 
-      dispatch(QuanLyThemPhimUploadHinh(formData));
+      dispatch(QuanLyCapNhatPhimUpload(formData)).then(
+        dispatch(fetchMovieFeature()).then(navigate("/admin/films"))
+      );
     },
   });
 
   const handleChangeDatePicker = (value) => {
-    // console.log("datePickerChange", moment(value).format("DD/MM/YYYY"));
-    let dateUpdate = moment(value).format("DD/MM/YYYY");
-    formik.setFieldValue("ngayKhoiChieu", dateUpdate);
+    let ngayKhoiChieu = moment(value);
+    formik.setFieldValue("ngayKhoiChieu", ngayKhoiChieu);
   };
 
+  // console.log("total", formik.values);
+
   const handleChangeSwitch = (name) => {
-    return (value) => {
-      formik.setFieldValue(name, value);
+    return (values) => {
+      formik.setFieldValue(name, values);
     };
   };
 
@@ -82,16 +90,8 @@ const Edit = (props) => {
     };
   };
 
-  //   const handleChangeFile = (e) => {
-  //     let files = e.target.files[0];
-  //     console.log("file", files);
-  //   };
-
   const [selectedImage, setSelectedImage] = useState(null);
 
-  //   let momentLichChieu = moment(ThongTinPhim.ngayKhoiChieu).format(
-  //     "DD/MM/YYYY A"
-  //   );
   return (
     <>
       <Form
@@ -142,33 +142,30 @@ const Edit = (props) => {
         </Form.Item>
         <Form.Item label="Ngày khởi chiếu">
           <DatePicker
-            // name="ngayKhoiChieu"
+            name="ngayKhoiChieu"
+            format={"DD/MM/YYYY"}
             onChange={handleChangeDatePicker}
-            // defaultValue={dayjs(ThongTinPhim.ngayKhoiChieu, "DD/MM/YYYY")}
-            // defaultValue={dayjs(fatedate, "DD/MM/YYYY")}
-            value={dayjs(`${fatedate}`, "DD/MM/YYYY")}
-            format="DD/MM/YYYY"
+            // value={dayjs(formik?.values?.ngayKhoiChieu)}
+            value={dayjs(formik.values?.ngayKhoiChieu)}
           />
         </Form.Item>
         <Form.Item label="Đang chiếu" valuePropName="checked">
           <Switch
             onChange={handleChangeSwitch("dangChieu")}
-            defaultChecked={formik.values.dangChieu}
+            checked={formik.values.dangChieu}
           />
         </Form.Item>
         <Form.Item label="Sắp chiếu" valuePropName="checked">
           <Switch
-            onChange={(value) => {
-              formik.setFieldValue("sapChieu", value);
-            }}
-            defaultChecked={formik.values.sapChieu}
+            onChange={handleChangeSwitch("sapChieu")}
+            checked={formik.values.sapChieu}
           />
         </Form.Item>
         <Form.Item label="Hot" valuePropName="checked">
           <Switch
             name="hot"
             onChange={handleChangeSwitch("hot")}
-            defaultChecked={formik.values.hot}
+            checked={formik.values.hot}
           />
         </Form.Item>
 
@@ -210,7 +207,7 @@ const Edit = (props) => {
         </Form.Item>
         <Form.Item label="Thêm phim">
           <button type="submit" className="bg-gray-500 rounded-lg px-8 py-1">
-            Thêm phim mới
+            Cập nhật
           </button>
         </Form.Item>
       </Form>

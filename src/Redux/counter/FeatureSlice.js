@@ -24,9 +24,9 @@ const initialState = {
 
 export const fetchMovieFeature = createAsyncThunk(
     'movieFeature/fetchMovieFeature',
-    async () => {
+    async (tenPhim = '') => {
         try {
-            const response = await LayDanhSachPhim()
+            const response = await LayDanhSachPhim(tenPhim)
             return (response.data.content)
         } catch (error) {
             console.log('error', error);

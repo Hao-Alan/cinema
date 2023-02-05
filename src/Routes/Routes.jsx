@@ -120,8 +120,8 @@ const Routes = createBrowserRouter([
         element: <Users />,
       },
       {
-        path: "/admin/showtimes",
-        id: "showtime",
+        path: "/admin/films/showTimes/:id/:tenPhim",
+        id: "showTime",
         element: <ShowTime />,
       },
     ],

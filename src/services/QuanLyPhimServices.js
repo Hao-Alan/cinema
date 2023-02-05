@@ -10,7 +10,10 @@ export const LayDanhSachBanner = () => {
     )
 }
 
-export const LayDanhSachPhim = () => {
+export const LayDanhSachPhim = (tenPhim = '') => {
+    if (tenPhim.trim() !== '') {
+        return get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP01&tenPhim=${tenPhim}`)
+    }
     return (
         get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP01`)
     )

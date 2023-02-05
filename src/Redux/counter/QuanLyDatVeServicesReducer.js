@@ -1,13 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { QuanLyDatVeServiceMoi, QuanLyDatVeServices, ThemPhimUploadHinh } from '../../services/QuanLyDatVeServices'
+import { Navigate } from 'react-router-dom'
+import { CapNhatPhimUpload, QuanLyDatVeServiceMoi, QuanLyDatVeServices, ThemPhimUploadHinh, XoaPhimxx } from '../../services/QuanLyDatVeServices'
 import { QuanLyNguoiDungDangNhapService } from '../../services/QuanLyNguoiDungServices'
 import { LayThongTinPhim } from '../../services/QuanLyPhimServices'
+import { TOKEN } from '../../Utils/settings/config'
+import { fetchMovieFeature } from './FeatureSlice'
 
 const initialState = {
     filmInfo: {
         danhSachGhe: [],
-        thongTinPhim: {},
+        thongTinPhim: {}
+        ,
         danhSachPhimDaDat: {},
 
     },
@@ -111,6 +116,38 @@ export const QuanLyLayThongTinPhim = createAsyncThunk(
     }
 )
 
+export const QuanLyCapNhatPhimUpload = createAsyncThunk(
+    "QuanLyCapNhatPhimUpload/QuanLyDatVeServices",
+    async (filmData) => {
+
+        try {
+            const response = await CapNhatPhimUpload(filmData)
+            alert("ban đã cập nhật thành công")
+            console.log("phimVuaCapNhat", response.data.content);
+            return
+
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+)
+
+export const XoaPhimPhim = createAsyncThunk(
+    "XoaPhimPhim/QuanLyDatVeServices",
+    async (filmData) => {
+
+        try {
+            const response = await XoaPhimxx(filmData)
+            console.log("phim Da xoa", response.content);
+            alert("ban da xoa thanh cong")
+
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+)
+
+
 export const QuanLyDatVeServicesSliceReducer = createSlice(
     {
         name: 'QuanLyDatVeServices',
@@ -168,6 +205,10 @@ export const QuanLyDatVeServicesSliceReducer = createSlice(
             builder.addCase(QuanLyLayThongTinPhim.pending, (state, action) => {
                 state.loading = true
             })
+            // builder.addCase(QuanLyCapNhatPhimUpload.fulfilled, (state, action) => {
+            //     state.ThongTinPhim = action.payload
+            //     state.loading = false
+            // })
 
 
 

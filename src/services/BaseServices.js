@@ -39,14 +39,22 @@ export const get = (url, model) => {
     })
 }
 
-export const deleteE = (url, model) => {
+// export const Delete = (url, model) => {
+//     return axios({
+//         url: `${DOMAIN}/${url}`,
+//         method: 'DELETE',
+//         data: model,
+//         headers: {
+//             'Authorization': `Bearer ` + localStorage.getItem(TOKEN),
+//         }
+//     })
+// }
+
+export const Delete = (url) => {
     return axios({
-        url: `${DOMAIN}/${url}`,
+        url: `${DOMAIN}${url}`,
         method: 'DELETE',
-        data: model,
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`,
-        }
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem(TOKEN) } //token yêu cầu từ backend chứng minh user đã đăng nhập rồi
     })
 }
 
